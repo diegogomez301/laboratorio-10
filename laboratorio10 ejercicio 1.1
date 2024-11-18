@@ -1,0 +1,21 @@
+import pandas as pd
+
+data_pacientes = {
+    "Nombre": ["Carlos", "Ana", "Luis", "Pedro", "María", None],    
+    "Edad": [34, 29, None, 45, 25, 33],
+    "Fecha Ingreso": ["2021-01-15", "2020/03/12", "2022-07-01", "2021/12/01", "2021-05-20", "2020-03-12"],
+    "Resultado Prueba": ["Positivo", "Negativo", "Positivo", "Positivo", "Negativo", "Negativo"]
+}
+
+df_pacientes = pd.DataFrame(data_pacientes)
+
+
+df_pacientes["Nombre"].fillna("Desconocido", inplace=True)
+
+df_pacientes["Edad"].fillna(df_pacientes["Edad"].mean(), inplace=True)
+
+df_pacientes["Fecha Ingreso"] = pd.to_datetime(df_pacientes["Fecha Ingreso"], errors="coerce")
+
+
+print("Datos limpios de pacientes:")
+print(df_pacientes)
