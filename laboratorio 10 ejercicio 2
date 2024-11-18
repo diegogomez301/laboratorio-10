@@ -1,0 +1,32 @@
+import pandas as pd
+import numpy as np
+
+datos = {
+    "Nombre": ["Juan", "Maria", "Pedro", "Ana", "Luisa", "Carlos", "Juan"],
+    "Edad": [25, 30, np.nan, 29, 28, 200, 25],
+    "Email": ["juan@mail.com", "maria@mail.com", "pedro@mail.com", "ana@mail.com", "luisa@mail.com", "carlos@mail.com", "juan@mail.com"],
+    "Pais": ["colombia", "Colombia", "Mexico", "Argentina", "Colombia", "Brazil", "colombia"],
+    "Genero": ["M", "F", "H", "F", "Femenino", "M", "M"],
+    "Visitas": [5, 7, 6, 4, 8, 2, 5]
+}
+df = pd.DataFrame(datos)
+
+# Llenar valores nulos en "Edad" con la media de la edad
+df["Edad"].fillna(df["Edad"].mean(), inplace=True)
+
+df.drop_duplicates(subset=["Nombre", "Email"], keep='first', inplace=True)
+
+df["Genero"] = df["Genero"].replace({
+    "M": "Masculino", 
+    "Masculino": "Masculino", 
+    "F": "Femenino", 
+    "Femenino": "Femenino", 
+    "H": np.nan  # Reemplazamos el valor "H" con NaN (o lo eliminamos si lo deseamos)
+})
+
+df["Pais"] = df["Pais"].str.capitalize()
+
+df["Edad"] = df["Edad"].apply(lambda x: np.nan if x > 120 else x)
+
+print("Datos Limpiados:")
+print(df)
