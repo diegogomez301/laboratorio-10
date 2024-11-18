@@ -1,0 +1,28 @@
+data_comercio = {
+    "Cliente ID": [1, 2, 3, 4, 5],
+    "Producto": ["A", "B", "C", "D", "E"],
+    "Cantidad": [10, 20, None, 5, 15],
+    "Precio": ["100", "200$", "300", "cuatrocientos", "500"],
+    "Fecha Transacción": ["2023-01-15", "2023/02/20", "2023-03-25", "2023/04/30", "2023-05-10"]
+}
+
+df_comercio = pd.DataFrame(data_comercio)
+
+df_comercio["Cantidad"].fillna(0, inplace=True)
+
+def limpiar_precio(precio):
+    if isinstance(precio, str):
+        precio = precio.replace("$", "")
+        try:
+            return float(precio)
+        except ValueError:
+            return None
+    return precio
+
+df_comercio["Precio"] = df_comercio["Precio"].apply(limpiar_precio)
+df_comercio["Precio"].fillna(0, inplace=True)
+
+df_comercio["Fecha Transacción"] = pd.to_datetime(df_comercio["Fecha Transacción"], errors="coerce")
+
+print("\nDatos limpios de comercio:")
+print(df_comercio)
